@@ -6,25 +6,25 @@ const App = () => {
   const [title, setTitle] = useState<string>('');
   const [headlines, setHeadlines] = useState<string[]>([]);
 
-  useEffect(() => {
-    chrome.tabs &&
-      chrome.tabs.query(
-        {
-          active: true,
-          currentWindow: true,
-        },
-        (tabs) => {
-          chrome.tabs.sendMessage(
-            tabs[0].id || 0,
-            { type: 'GET_DOM' } as DOMMessage,
-            ({ headlines, title }: DOMMessageResponse) => {
-              setTitle(title);
-              setHeadlines(headlines);
-            }
-          );
-        }
-      );
-  }, []);
+  // useEffect(() => {
+  //   chrome.tabs &&
+  //     chrome.tabs.query(
+  //       {
+  //         active: true,
+  //         currentWindow: true,
+  //       },
+  //       (tabs) => {
+  //         chrome.tabs.sendMessage(
+  //           tabs[0].id || 0,
+  //           { type: 'GET_DOM' } as DOMMessage,
+  //           ({ headlines, title }: DOMMessageResponse) => {
+  //             setTitle(title);
+  //             setHeadlines(headlines);
+  //           }
+  //         );
+  //       }
+  //     );
+  // }, []);
 
   return (
     <div className="App">

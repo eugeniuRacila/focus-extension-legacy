@@ -9,8 +9,10 @@
   },
   "content_scripts": [
     {
+      "css": ["./static/css/main.css"],
+      "js": ["./static/js/content.js"],
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["./static/js/content.js"]
+      "run_at": "document_start"
     }
   ],
   "icons": {

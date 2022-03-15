@@ -1,9 +1,8 @@
+// TODO: Fix styles, as they are not used when injected
+import './Focus.css';
+
 const Focus = () => {
-  return (
-    <div>
-      <h1>Keep of focusing, man</h1>
-    </div>
-  );
+  return <h1 className="focus">Keep of focusing, man</h1>;
 };
 
 export default Focus;

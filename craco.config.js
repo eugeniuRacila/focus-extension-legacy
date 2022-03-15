@@ -18,7 +18,7 @@ module.exports = {
               require.resolve('react-dev-utils/webpackHotDevClient'),
             paths.appIndexJs,
           ].filter(Boolean),
-          content: './src/services/chromium/dom-evaluator.ts',
+          content: './src/services/chromium/content-scripts.tsx',
         },
         output: {
           ...webpackConfig.output,
