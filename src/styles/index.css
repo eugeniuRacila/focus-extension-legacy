@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#focus-extention-root {
+#focus-extension-root {
   /* background-image: url('https://images.unsplash.com/photo-1647119126202-d13a4263d40c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80'); */
   background-size: cover;
   color: black;
@@ -24,7 +24,7 @@ body {
   z-index: 99999;
 }
 
-#focus-extention-root:before {
+#focus-extension-root:before {
   background-color: rgba(255, 255, 255, 0.25);
   content: '';
   backdrop-filter: blur(20px);

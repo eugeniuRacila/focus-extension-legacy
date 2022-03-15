@@ -1,14 +1,7 @@
 module.exports = {
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
-      // Remove CSS file name hash
-      const miniCssExtractPlugin = webpackConfig.plugins.find(
-        (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
-      );
-
-      if (miniCssExtractPlugin) {
-        miniCssExtractPlugin.options.filename = 'static/css/[name].css';
-      }
+      removeCssFileNameHash(webpackConfig);
 
       return {
         ...webpackConfig,
@@ -31,4 +24,14 @@ module.exports = {
       };
     },
   },
+};
+
+const removeCssFileNameHash = (webpackConfig) => {
+  const miniCssExtractPlugin = webpackConfig.plugins.find(
+    (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
+  );
+
+  if (miniCssExtractPlugin) {
+    miniCssExtractPlugin.options.filename = 'static/css/[name].css';
+  }
 };
