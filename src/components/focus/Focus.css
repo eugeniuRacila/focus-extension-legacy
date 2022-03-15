@@ -1,3 +1,6 @@
 .focus {
-  font-size: 48px;
+  font-size: 69px;
+  line-height: 1;
+  max-width: min(600px, 60vw);
+  width: 100%;
 }
