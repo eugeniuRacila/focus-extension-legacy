@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "css": ["./static/css/main.css"],
+      "css": ["./static/css/main.css", "./static/css/content.css"],
       "js": ["./static/js/content.js"],
       "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_start"

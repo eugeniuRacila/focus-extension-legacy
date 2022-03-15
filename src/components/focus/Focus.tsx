@@ -1,4 +1,3 @@
-// TODO: Fix styles, as they are not used when injected
 import './Focus.css';
 
 const Focus = () => {
