@@ -20,5 +20,6 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
+  "options_page": "options.html",
   "permissions": ["activeTab", "tabs"]
 }

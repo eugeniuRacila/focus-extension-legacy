@@ -1,9 +1,9 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
-      removeCssFileNameHash(webpackConfig);
-
-      return {
+      const modifiedWebpackConfig = {
         ...webpackConfig,
         entry: {
           main: [
@@ -22,8 +22,43 @@ module.exports = {
           runtimeChunk: false,
         },
       };
+
+      setMainEntityChuncks(['main'], modifiedWebpackConfig);
+      addHtmlWebpackPluginEntity(
+        'options',
+        `${paths.appSrc}/options.tsx`,
+        ['options'],
+        modifiedWebpackConfig,
+        env,
+        paths
+      );
+      removeCssFileNameHash(modifiedWebpackConfig);
+
+      return modifiedWebpackConfig;
     },
   },
+};
+
+const addHtmlWebpackPluginEntity = (
+  entryName,
+  entryPath,
+  chuncks,
+  webpackConfig,
+  env,
+  paths
+) => {
+  webpackConfig.entry[entryName] = entryPath;
+  webpackConfig.plugins.splice(
+    1,
+    0,
+    new HtmlWebpackPlugin({
+      chunks: chuncks,
+      filename: `${entryName}.html`,
+      inject: true,
+      minify: env === 'production',
+      template: `${paths.appPublic}/${entryName}.html`,
+    })
+  );
 };
 
 const removeCssFileNameHash = (webpackConfig) => {
@@ -34,4 +69,8 @@ const removeCssFileNameHash = (webpackConfig) => {
   if (miniCssExtractPlugin) {
     miniCssExtractPlugin.options.filename = 'static/css/[name].css';
   }
+};
+
+const setMainEntityChuncks = (chuncks, webpackConfig) => {
+  webpackConfig.plugins[0].userOptions['chunks'] = chuncks;
 };
