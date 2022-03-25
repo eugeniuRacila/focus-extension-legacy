@@ -1,56 +1,43 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { isEmptyObject } from '../../utils';
+import { useEffect, useState } from 'react';
+import {
+  addUnfocusedResource,
+  getUnfocusedResources,
+  removeUnfocusedResource,
+} from '../../services/chromium/sync-storage';
 import UnfocusedResource from '../unfocused-resource';
 import './Options.css';
 
 const Options = () => {
-  const [websiteDomainInput, setWebsiteDomainInput] = useState('');
-  const [websitesList, setWebsitesList] = useState<Array<string>>([]);
+  const [resourceDomainValue, setResourceDomainInput] = useState('');
+  const [unfocusedResources, setUnfocusedResources] = useState<string[]>([]);
 
   useEffect(() => {
-    // chrome.storage.sync.get(['focusWebsites'], (store) => {
-    //   if (!isEmptyObject(store)) {
-    //     setWebsitesList(store['focusWebsites']);
-    //   }
-    // });
+    const setInitialUnfocusedResources = async () => {
+      try {
+        const unfocusedResources = await getUnfocusedResources();
+
+        setUnfocusedResources(unfocusedResources);
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    setInitialUnfocusedResources();
   }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    chrome.storage.sync.get(['focusWebsites'], (store) => {
-      console.log('store initial value -> ', store);
+    const updatedResources = await addUnfocusedResource(resourceDomainValue);
 
-      if (isEmptyObject(store)) {
-        chrome.storage.sync.set({ focusWebsites: [websiteDomainInput] }, () => {
-          console.log('Created a new store');
-          console.log('Stored the website for focus ->', websiteDomainInput);
-          setWebsitesList(store.focusWebsites);
-        });
-      } else {
-        store.focusWebsites.push(websiteDomainInput);
-        chrome.storage.sync.set(store, () => {
-          console.log('Stored the website for focus ->', websiteDomainInput);
-          console.log('store.focusWebsites ->', store.focusWebsites);
-
-          setWebsitesList(store.focusWebsites);
-        });
-      }
-    });
-
-    setWebsiteDomainInput('');
+    setUnfocusedResources(updatedResources);
+    setResourceDomainInput('');
   };
 
-  const handleWebsiteRemoval = async (index: number) => {
-    chrome.storage.sync.get(['focusWebsites'], (store) => {
-      store.focusWebsites.splice(index, 1);
+  const handleResourceRemoval = async (resource: string) => {
+    const updatedResources = await removeUnfocusedResource(resource);
 
-      chrome.storage.sync.set(store, () => {
-        console.log('Removed the website from focus');
-      });
-
-      setWebsitesList(store.focusWebsites);
-    });
+    setUnfocusedResources(updatedResources);
   };
 
   return (
@@ -78,17 +65,16 @@ const Options = () => {
               Webflow cloneables, resources.
             </p>
           </div>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="options-cta-form"
-          >
+          <form onSubmit={handleSubmit} className="options-cta-form">
             <input
               className="options-cta-form__input"
               id="domain"
               name="domain"
+              onChange={(e) => setResourceDomainInput(e.target.value)}
               placeholder="Domain name.."
               spellCheck={false}
               type="text"
+              value={resourceDomainValue}
             />
             <div className="options-cta-form__button-wrapper">
               <button className="options-cta-form__button" type="submit">
@@ -101,41 +87,14 @@ const Options = () => {
           className="manage-unfocused-websites"
           id="manage-unfocused-websites"
         >
-          <UnfocusedResource faviconSrc="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://instagram.com&size=128" />
-          <UnfocusedResource faviconSrc="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://youtube.com&size=128" />
-          <UnfocusedResource faviconSrc="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://reddit.com&size=128" />
+          {unfocusedResources.map((resource) => (
+            <UnfocusedResource
+              handleResourceRemoval={handleResourceRemoval}
+              resource={resource}
+            />
+          ))}
         </section>
       </div>
-      {/* <form onSubmit={handleSubmit} style={{ marginBottom: 32 }}>
-        <label style={{ marginRight: 16 }}>
-          <input
-            name="websiteDomain"
-            onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
-              setWebsiteDomainInput(value)
-            }
-            type="text"
-            value={websiteDomainInput}
-          />
-        </label>
-        <button>Add website</button>
-      </form>
-      <br />
-      <ul>
-        {websitesList.length !== 0 &&
-          websitesList.map((website, index) => (
-            <div
-              key={website}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: 16,
-              }}
-            >
-              <li>{website}</li>
-              <button onClick={() => handleWebsiteRemoval(index)}>x</button>
-            </div>
-          ))}
-      </ul> */}
     </div>
   );
 };

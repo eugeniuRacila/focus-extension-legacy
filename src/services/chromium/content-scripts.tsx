@@ -1,13 +1,14 @@
 import { injectFocusElement } from '../../core/inject';
+import { unfocusedResources } from '../../types/chromium-storage';
 import { isEmptyObject } from '../../utils';
 import { observeBodyCreation } from '../../utils/dom-mutation-observer';
 
 const runContentScript = async () => {
-  const website = await chrome.storage.sync.get(['focusWebsites']);
+  const chromiumStorage = await chrome.storage.sync.get([unfocusedResources]);
 
   if (
-    !isEmptyObject(website) &&
-    website['focusWebsites'].find((domain: string) =>
+    !isEmptyObject(chromiumStorage) &&
+    chromiumStorage[unfocusedResources].find((domain: string) =>
       window.location.hostname.includes(domain)
     )
   ) {

@@ -1,20 +1,34 @@
 import closeSvg from '../../assets/icons/close.svg';
+import { getResourceFavIcon } from '../../utils/fav-icon-fetch';
 import './UnfocusedResource.css';
 
 interface UnfocusedResourceProp {
-  faviconSrc: string;
+  handleResourceRemoval: (resource: string) => void;
+  resource: string;
 }
 
-const UnfocusedResource = ({ faviconSrc }: UnfocusedResourceProp) => {
+const UnfocusedResource = ({
+  handleResourceRemoval,
+  resource,
+}: UnfocusedResourceProp) => {
+  let resourceFavIconSrc = getResourceFavIcon(resource);
+
   return (
     <div className="unfocused-website">
       <div className="unfocused-website__background-image">
-        <img alt="" src={faviconSrc} />
+        <img alt="" src={resourceFavIconSrc} />
       </div>
       <div className="unfocused-website__background-blurred">
-        <img alt="" className="unfocused-website__favicon" src={faviconSrc} />
+        <img
+          alt=""
+          className="unfocused-website__favicon"
+          src={resourceFavIconSrc}
+        />
       </div>
-      <button className="unfocused-website__remove">
+      <button
+        className="unfocused-website__remove"
+        onClick={() => handleResourceRemoval(resource)}
+      >
         <img alt="" className="unfocused-website__remove-icon" src={closeSvg} />
       </button>
     </div>
