@@ -21,6 +21,10 @@ module.exports = {
           ...webpackConfig.optimization,
           runtimeChunk: false,
         },
+        resolve: {
+          ...webpackConfig.resolve,
+          fallback: { url: require.resolve('url/') },
+        },
       };
 
       setMainEntityChuncks(['main'], modifiedWebpackConfig);

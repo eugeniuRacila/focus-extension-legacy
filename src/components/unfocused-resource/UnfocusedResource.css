@@ -1,0 +1,60 @@
+.unfocused-website {
+  height: 96px;
+  position: relative;
+  width: 96px;
+}
+
+.unfocused-website:hover .unfocused-website__remove {
+  opacity: 1;
+}
+
+.unfocused-website__background-image {
+  border-radius: 50%;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.unfocused-website__background-image img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.unfocused-website__background-blurred {
+  backdrop-filter: blur(2rem);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: inline-grid;
+  height: 100%;
+  width: 100%;
+}
+
+.unfocused-website__favicon {
+  height: 3rem;
+  place-self: center;
+  width: 3rem;
+}
+
+.unfocused-website__remove {
+  background-color: #393939;
+  border: 0.25rem solid #050a11;
+  border-radius: 50%;
+  box-sizing: content-box;
+  cursor: pointer;
+  display: grid;
+  height: 1rem;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 150ms;
+  width: 1rem;
+}
+
+.unfocused-website__remove-icon {
+  place-self: center;
+}
