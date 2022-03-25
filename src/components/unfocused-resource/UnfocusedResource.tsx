@@ -14,7 +14,7 @@ const UnfocusedResource = ({
   let resourceFavIconSrc = getResourceFavIcon(resource);
 
   return (
-    <div className="unfocused-website">
+    <div className="unfocused-website" title={resource}>
       <div className="unfocused-website__background-image">
         <img alt="" src={resourceFavIconSrc} />
       </div>
@@ -28,6 +28,7 @@ const UnfocusedResource = ({
       <button
         className="unfocused-website__remove"
         onClick={() => handleResourceRemoval(resource)}
+        title="Remove resource"
       >
         <img alt="" className="unfocused-website__remove-icon" src={closeSvg} />
       </button>
