@@ -8,7 +8,7 @@ const runContentScript = async () => {
   if (
     !isEmptyObject(website) &&
     website['focusWebsites'].find((domain: string) =>
-      window.location.toString().includes(domain)
+      window.location.hostname.includes(domain)
     )
   ) {
     observeBodyCreation().then((body) => {
