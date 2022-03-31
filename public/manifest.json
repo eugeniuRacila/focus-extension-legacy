@@ -22,5 +22,11 @@
     "128": "assets/icon128.png"
   },
   "options_page": "options.html",
-  "permissions": ["activeTab", "storage", "tabs"]
+  "permissions": ["activeTab", "storage", "tabs"],
+  "web_accessible_resources": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "resources": ["/static/css/content.css"]
+    }
+  ]
 }

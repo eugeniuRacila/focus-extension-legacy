@@ -13,6 +13,7 @@ export const injectFocusElement = (body: HTMLBodyElement): void => {
 
 const createRootElement = (): HTMLDivElement => {
   const root = document.createElement('div');
+  root.style.zIndex = '2147483647';
   root.id = 'focus-extension-root';
 
   return root;
